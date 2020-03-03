@@ -19,15 +19,52 @@ defmodule Poker do
 		end
 	end
 
-	def royalFlush(list) do #return true if there's a royal flush;false otherwise
+	def checkRoyalFlush(hand) do #return true if there's a royal flush;false otherwise
 		:TODO
 	end
 
-	def straightFlush(list) do
+	def checkStraightFlush(hand) do
 		:TODO
 	end
 
-	def fourOfAKind(list) do
+	def checkFourOfAKind(hand) do
+		:TODO
+	end
+
+	def checkPair(hand) do
+		:TODO
+	end
+	
+	def checkStraight(hand) do
+		:TODO
+	end
+
+	def checkFlush(hand) do
+		main_suite=elem((hd hand),1) # reference suite
+		hand_copy=hand
+		if length(hand)<=0 do #finish this part
+			:true
+		else
+			head=hd(hand_copy)
+			hand_copy=hand_copy--[head]
+			if elem(head,1)!=main_suite do
+				:false
+			end
+		end
+		:true
+	end
+
+	def 
+
+	checkThreeofAKind(hand) do
+		:TODO
+	end
+
+	checkTwoPairs(hand) do
+		:TODO
+	end
+
+	checkFullHouse(hand) do
 		:TODO
 	end
 end

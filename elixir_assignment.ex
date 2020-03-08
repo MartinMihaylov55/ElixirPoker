@@ -50,4 +50,21 @@ def getCardValue(card) do
 end
 
 #-----------------------------------------------------------
+
+
+def checkRoyalFlush(values_list,suits_list) do
+	main_suite=hd(suits_list)
+	#check if the suit is the same for every card
+	if not Enum.all?(suits_list,fn(suite)->suite==main_suite end) do
+		:false
+	end
+
+	#check if Ace,King,Queen,Jack,10 are not in the list of values 
+	if not (1 in values_list) || not (13 in values_list) || not (12 in values_list) || not (11 in values_list) || not (10 in values_list) do
+	:false
+	end
+
+	:true
+end
+
 end

@@ -53,7 +53,7 @@ end
 
 
 def checkRoyalFlush(values_list,suits_list) do
-	main_suite=hd(suits_list)
+	main_suite=hd(suits_list) #a reference suit
 	#check if the suit is the same for every card
 	if not Enum.all?(suits_list,fn(suite)->suite==main_suite end) do
 		:false
@@ -65,6 +65,58 @@ def checkRoyalFlush(values_list,suits_list) do
 	end
 
 	:true
+end
+
+def checkFlush(values_list,suits_list) do
+	main_suite=hd(suits_list) # reference suit 
+	#check if the suit is the same for every card
+        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
+                :false
+        end
+	
+	checkFlushHelper(values_list,true)		
+end
+
+#a helper function to check if the difference between 2 cards is 1
+def checkFlushHelper([head|t],condition) do
+	tail=tl(t)
+	#if the difference between 2 cards is 1, it's not a flush
+	if ((tail-head)==1) do
+	 :false
+	end
+	if t==[] do
+		condition 
+	end 	# return condition is list is empty
+
+	checkFlushHelper(t,true)
+end
+
+def checkStraightFlush(values_list,suits_list) do
+	main_suite=hd(suits_list) # reference suit
+        #check if the suit is the same for every card
+        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
+                :false
+        end
+	
+	:TODO #finish difference comparison
+end
+
+def checkStraight(values_list,suits_list) do
+	main_suite=hd(suits_list) # reference suit
+        #check if the suit is !!!not!!! the same for every card
+        if (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
+                :false
+        end
+	
+	:TODO #finish difference comparison
+end
+
+def getHighCard(values_list,suits_list) do
+	max_value=Enum.max(values_list) # get max value
+	#finds the corresponding suite of the high card
+	[suite,_]=Enum.with_index(suits_list) |> Enum.filter_map(fn {x, _} -> x == max_value end, fn {_, i} -> i end)
+	#return the tuple containing max value and suite
+	{max_value,suite}
 end
 
 end

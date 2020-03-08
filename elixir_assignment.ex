@@ -11,8 +11,8 @@ defmodule Poker do
 			:error
 		end
 
-		p1hand = [convertHand(list, 0), Enum.map(convertHand(list, 0), &determineSuit/1)]
-		p2hand = [convertHand(list, 1), Enum.map(convertHand(list, 0), &determineSuit/1)]
+		p1hand = [Enum.map(convertHand(list, 0), &getCardValue/1), Enum.map(convertHand(list, 0), &determineSuit/1)]
+		p2hand = [Enum.map(convertHand(list, 1), &getCardValue/1), Enum.map(convertHand(list, 1), &determineSuit/1)]
 
 		IO.inspect p1hand
 		IO.inspect p2hand
@@ -40,6 +40,16 @@ defmodule Poker do
 			card_number<=52 -> "S" #Spades
 		end
 	end
+
+def getCardValue(card) when card<=13 do
+	card
+end
+
+def getCardValue(card) do
+	getCardValue(card-13)
+end
+
+#-----------------------------------------------------------
 
 #This needs to be rewritten; p1hand and p2hand in the deal function contain a list of all of the suits that can be checked using Enum.all?
 	def checkFlush(hand) do

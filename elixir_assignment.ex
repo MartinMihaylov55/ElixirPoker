@@ -11,8 +11,8 @@ defmodule Poker do
 			:error
 		end
 
-		p1hand = [convertHand(list, 0), Enum.map(convertHand(list, 0), f(n) -> determineSuit(n) end)]
-		p2hand = [convertHand(list, 1), Enum.map(convertHand(list, 0), f(n) -> determineSuit(n) end)]
+		p1hand = [convertHand(list, 0), Enum.map(convertHand(list, 0), &determineSuit/1)]
+		p2hand = [convertHand(list, 1), Enum.map(convertHand(list, 0), &determineSuit/1)]
 
 		IO.inspect p1hand
 		IO.inspect p2hand

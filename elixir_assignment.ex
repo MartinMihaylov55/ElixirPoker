@@ -1,16 +1,37 @@
 defmodule Poker do
+	#Hands will be divided into a list containing 2 lists each of length 5
+	#The first list contains the card values and the second list contains their suits
+
 	def deal([]), do: :error
+
 	def deal(list) do
-	if Enum.all?(list,&is_integer/1)==false do #if any card is not an int
-		:error
+
+		if Enum.all?(list,&is_integer/1)==false do #if any card is not an int
+			:error
 		end
-	player1=Enum.take(list,5) # take 5 elements from the beginning of the list
-	player2=Enum.take(list,5) # take 5 remaining elements
-	#TODO
-	:winning
+
+		p1hand = [convertHand(list, 0), Enum.map(convertHand(list, 0), f(n) -> determineSuit(n) end)]
+		p2hand = [convertHand(list, 1), Enum.map(convertHand(list, 0), f(n) -> determineSuit(n) end)]
+
+		IO.inspect p1hand
+		IO.inspect p2hand
+		:winner
 	end
 
-	def determineSuite(card_number) do
+#---------------------------------------------------------
+
+	def convertHand(listOfCards, i) when i>7 do
+  	[Enum.at(listOfCards,i)]
+	end
+
+	def convertHand(listOfCards, i) do
+		[Enum.at(listOfCards,i)] ++ convertHand(listOfCards, i+2)
+	end
+
+#---------------------------------------------------------
+
+#Reminder: The letter for each suit is in ascending order in terms of ascii value
+	def determineSuit(card_number) do
 		cond do
 			card_number<=13 -> "C" #Clubs
 			card_number<=26 -> "D" #Diamonds
@@ -19,26 +40,7 @@ defmodule Poker do
 		end
 	end
 
-	def checkRoyalFlush(hand) do #return true if there's a royal flush;false otherwise
-		:TODO
-	end
-
-	def checkStraightFlush(hand) do
-		:TODO
-	end
-
-	def checkFourOfAKind(hand) do
-		:TODO
-	end
-
-	def checkPair(hand) do
-		:TODO
-	end
-	
-	def checkStraight(hand) do
-		:TODO
-	end
-
+#This needs to be rewritten; p1hand and p2hand in the deal function contain a list of all of the suits that can be checked using Enum.all?
 	def checkFlush(hand) do
 		main_suite=elem((hd hand),1) # reference suite
 		hand_copy=hand
@@ -52,19 +54,5 @@ defmodule Poker do
 			end
 		end
 		:true
-	end
-
-	def 
-
-	checkThreeofAKind(hand) do
-		:TODO
-	end
-
-	checkTwoPairs(hand) do
-		:TODO
-	end
-
-	checkFullHouse(hand) do
-		:TODO
 	end
 end

@@ -50,20 +50,39 @@ def getCardValue(card) do
 end
 
 #-----------------------------------------------------------
-
 #This needs to be rewritten; p1hand and p2hand in the deal function contain a list of all of the suits that can be checked using Enum.all?
-	def checkFlush(hand) do
-		main_suite=elem((hd hand),1) # reference suite
-		hand_copy=hand
-		if length(hand)<=0 do #finish this part
-			:true
-		else
-			head=hd(hand_copy)
-			hand_copy=hand_copy--[head]
-			if elem(head,1)!=main_suite do
-				:false
-			end
-		end
-		:true
-	end
+def checkRoyalFlush(hand) do #return true if there's a royal flush;false otherwise
+	:TODO
+end
+
+def checkStraightFlush(hand) do
+	:TODO
+end
+
+def checkFourOfAKind(hand) do
+	:TODO
+end
+
+def checkFullHouse(hand) do
+	:TODO
+end
+
+def checkFlush(hand) do
+	:TODO
+end
+
+def checkStraight() do
+	:TODO
+end
+
+def check3Kind() do
+	:TODO
+end
+
+def check2Pair() do
+	:TODO
+end
+
+def checkPair() do
+	:TODO
 end

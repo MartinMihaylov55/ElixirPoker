@@ -16,7 +16,40 @@ defmodule Poker do
 
 		IO.inspect p1hand
 		IO.inspect p2hand
-		:winner
+
+		rankOfHand1=determineRank(hd(p1hand),tl(p1hand))
+		rankOfHand2=determineRank(hd(p2hand),tl(p2hand))
+
+		if rankOfHand1 > rankOfHand2 do
+			winningHand=p1hand
+		end
+	
+		if rankOfHand1 < rankOfHand2 do
+			winningHand=p2hand
+		end
+
+		if rankOfHand1==rankOfHand2 do
+			{highCard1,highSuite1}=getHighCard(hd(p1hand),tl(p1hand))
+			{highCard2,highSuite2}=getHighCard(hd(p2hand),tl(p2hand))
+			if highCard1>highCard2 do
+				winningHand=p1hand
+			end
+			
+			if highCard1<highCard2 do
+				winningHand=p2hand
+			end
+
+			if highCard1==highCard2 && determineSuitRank(highSuite1)>determineSuitRank(highSuite2) do
+				winningHand=p1hand
+			end
+			
+			if highCard1==highCard2 && determineSuitRank(highSuite1)<determineSuitRank(highSuite2) do
+				winningHand=p2hand
+			end
+			
+		end
+
+		winningHand
 	end
 
 #---------------------------------------------------------
@@ -73,8 +106,8 @@ def checkStraightFlush(values_list,suits_list) do
         #check if the suit is the same for every card
         if (checkStraight(values_list) and checkFlush(suits_list)) do
           :true
-				else
-					:false
+	else
+		:false
         end
 end
 
@@ -187,6 +220,33 @@ def getHighCard(values_list,suits_list) do
 	[suite,_]=Enum.with_index(suits_list) |> Enum.filter_map(fn {x, _} -> x == max_value end, fn {_, i} -> i end)
 	#return the tuple containing max value and suite
 	{max_value,suite}
+end
+
+#determine and return the rank of the hand from 10 to 1, where 10 is the highest rank
+def determineRank(values_list,suits_list) do
+	cond do
+		checkRoyalFlush(values_list,suits_list) -> 10
+		checkStraightFlush(values_list,suits_list) -> 9
+		checkFourKind(values_list) -> 8
+		checkFullHouse(values_list) -> 7
+		checkFlush(suits_list) -> 6
+		checkStraight(values_list) -> 5
+		checkThreeKind(values_list) -> 4
+		checkTwoPair(values_list) -> 3
+		checkPair(values_list) -> 2
+		true -> 1 #no combination was found	
+	end
+end
+
+#determines the rank of the suit
+def determineSuitRank(suite) do
+	cond do
+		'S' -> 4
+		'H' -> 3
+		'D' -> 2
+		'C' -> 1
+		true -> -1
+	end
 end
 
 end

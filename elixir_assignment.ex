@@ -51,7 +51,6 @@ end
 
 #-----------------------------------------------------------
 
-
 def checkRoyalFlush(values_list,suits_list) do
 	main_suite=hd(suits_list) #a reference suit
 	#check if the suit is the same for every card
@@ -59,7 +58,7 @@ def checkRoyalFlush(values_list,suits_list) do
 		:false
 	end
 
-	#check if Ace,King,Queen,Jack,10 are not in the list of values 
+	#check if Ace,King,Queen,Jack,10 are not in the list of values
 	if not (1 in values_list) || not (13 in values_list) || not (12 in values_list) || not (11 in values_list) || not (10 in values_list) do
 	:false
 	end
@@ -67,14 +66,16 @@ def checkRoyalFlush(values_list,suits_list) do
 	:true
 end
 
+#-----------------------------------------------------------
+
 def checkFlush(values_list,suits_list) do
-	main_suite=hd(suits_list) # reference suit 
+	main_suite=hd(suits_list) # reference suit
 	#check if the suit is the same for every card
         if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
                 :false
         end
-	
-	checkFlushHelper(values_list,true)		
+
+	checkFlushHelper(values_list,true)
 end
 
 #a helper function to check if the difference between 2 cards is 1
@@ -85,11 +86,13 @@ def checkFlushHelper([head|t],condition) do
 	 :false
 	end
 	if t==[] do
-		condition 
+		condition
 	end 	# return condition is list is empty
 
 	checkFlushHelper(t,true)
 end
+
+#--------------------------------------------------------------------
 
 def checkStraightFlush(values_list,suits_list) do
 	main_suite=hd(suits_list) # reference suit
@@ -97,9 +100,11 @@ def checkStraightFlush(values_list,suits_list) do
         if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
                 :false
         end
-	
+
 	:TODO #finish difference comparison
 end
+
+#---------------------------------------------------------------------
 
 def checkStraight(values_list,suits_list) do
 	main_suite=hd(suits_list) # reference suit
@@ -107,10 +112,21 @@ def checkStraight(values_list,suits_list) do
         if (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
                 :false
         end
-	
+
 	:TODO #finish difference comparison
 end
 
+#-----------------------------------------------------------------------
+
+def checkPair(values_list) do
+	if Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 2)) == 1 do
+		:true
+	else
+		:false
+	end
+end
+
+#-----------------------------------------------------------------------
 def getHighCard(values_list,suits_list) do
 	max_value=Enum.max(values_list) # get max value
 	#finds the corresponding suite of the high card

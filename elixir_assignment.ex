@@ -1,4 +1,4 @@
-#There is a syntax error on line 13 but i have no idea what the hell it is. Please help!!!
+
 defmodule Poker do
 	#Hands will be divided into a list containing 2 lists each of length 5
 	#The first list contains the card values and the second list contains their suits

@@ -106,14 +106,25 @@ end
 
 #---------------------------------------------------------------------
 
-def checkStraight(values_list,suits_list) do
-	main_suite=hd(suits_list) # reference suit
-        #check if the suit is !!!not!!! the same for every card
-        if (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
-                :false
-        end
+def checkStraight(values_list) do
+	sorted = Enum.sort(values_list)
+	checkStraight(sorted, 0)
+end
 
-	:TODO #finish difference comparison
+def checkStraight(sorted_vals, 3) do
+	if Enum.at(sorted_vals, 3) == (Enum.at(sorted_vals, 4) - 1) do
+		:true
+	else
+		:false
+	end
+end
+
+def checkStraight(sorted_vals, n) do
+	if Enum.at(sorted_vals, n) == (Enum.at(sorted_vals, n + 1) - 1) do
+		checkStraight(sorted_vals, n+1)
+	else
+		:false
+	end
 end
 
 #-----------------------------------------------------------------------

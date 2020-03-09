@@ -66,6 +66,18 @@ def checkRoyalFlush(values_list,suits_list) do
 	:true
 end
 
+#--------------------------------------------------------------------
+
+def checkStraightFlush(values_list,suits_list) do
+	main_suite=hd(suits_list) # reference suit
+        #check if the suit is the same for every card
+        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
+                :false
+        end
+
+	:TODO #finish difference comparison
+end
+
 #-----------------------------------------------------------
 
 def checkFlush(values_list,suits_list) do
@@ -92,18 +104,6 @@ def checkFlushHelper([head|t],condition) do
 	checkFlushHelper(t,true)
 end
 
-#--------------------------------------------------------------------
-
-def checkStraightFlush(values_list,suits_list) do
-	main_suite=hd(suits_list) # reference suit
-        #check if the suit is the same for every card
-        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
-                :false
-        end
-
-	:TODO #finish difference comparison
-end
-
 #---------------------------------------------------------------------
 
 def checkStraight(values_list,suits_list) do
@@ -114,6 +114,26 @@ def checkStraight(values_list,suits_list) do
         end
 
 	:TODO #finish difference comparison
+end
+
+#-----------------------------------------------------------------------
+
+def checkThreeKind(values_list) do
+	if Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 3)) == 1 do
+		:true
+	else
+		:false
+	end
+end
+
+#-----------------------------------------------------------------------
+
+def checkTwoPair(values_list) do
+	if Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 2)) == 2 do
+		:true
+	else
+		:false
+	end
 end
 
 #-----------------------------------------------------------------------

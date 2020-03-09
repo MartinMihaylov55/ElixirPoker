@@ -24,3 +24,33 @@ IO.puts Poker.checkStraight([11,9,8,10,7])
 IO.puts Poker.checkStraight([2,3,3,6,7])
 IO.puts Poker.checkStraight([2,3,3,3,7])
 IO.puts Poker.checkStraight([2,3,4,5,6])
+
+IO.puts "Testing flush"
+IO.puts Poker.checkFlush(["C","C","C","C","C"])
+IO.puts Poker.checkFlush(["S","H","D","H","C"])
+IO.puts Poker.checkFlush(["D","C","H","S","C"])
+IO.puts Poker.checkFlush(["S","S","S","S","S"])
+
+IO.puts "Testing full house"
+IO.puts Poker.checkFullHouse([11,9,8,10,7])
+IO.puts Poker.checkFullHouse([2,3,3,6,7])
+IO.puts Poker.checkFullHouse([7,3,3,3,7])
+IO.puts Poker.checkFullHouse([4,3,4,3,4])
+
+IO.puts "Testing four of a kind"
+IO.puts Poker.checkFourKind([11,9,8,10,7])
+IO.puts Poker.checkFourKind([7,7,7,7,6])
+IO.puts Poker.checkFourKind([7,3,3,3,7])
+IO.puts Poker.checkFourKind([4,4,4,3,4])
+
+IO.puts "Testing straight flush"
+IO.puts Poker.checkStraightFlush([11,9,8,10,7],["C","C","C","C","C"])
+IO.puts Poker.checkStraightFlush([2,3,3,6,7],["D","C","H","S","C"])
+IO.puts Poker.checkStraightFlush([2,3,3,3,7],["S","H","D","C","C"])
+IO.puts Poker.checkStraightFlush([2,3,4,5,6],["S","S","S","S","S"])
+
+IO.puts "Testing royal flush"
+IO.puts Poker.checkRoyalFlush([11,9,8,10,7],["C","C","C","C","C"])
+IO.puts Poker.checkRoyalFlush([2,3,3,6,7],["D","C","H","S","C"])
+IO.puts Poker.checkRoyalFlush([2,3,3,3,7],["S","H","D","C","C"])
+IO.puts Poker.checkRoyalFlush([13,1,12,10,11],["S","S","S","S","S"])

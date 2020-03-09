@@ -54,16 +54,16 @@ end
 def checkRoyalFlush(values_list,suits_list) do
 	main_suite=hd(suits_list) #a reference suit
 	#check if the suit is the same for every card
-	if not Enum.all?(suits_list,fn(suite)->suite==main_suite end) do
+	if checkFlush(suits_list) and Enum.sort(values_list) == [1,10,11,12,13] do
+		:true
+	else
 		:false
 	end
 
 	#check if Ace,King,Queen,Jack,10 are not in the list of values
-	if not (1 in values_list) || not (13 in values_list) || not (12 in values_list) || not (11 in values_list) || not (10 in values_list) do
-	:false
-	end
-
-	:true
+	#if not (1 in values_list) || not (13 in values_list) || not (12 in values_list) || not (11 in values_list) || not (10 in values_list) do
+	#:false
+	#end
 end
 
 #--------------------------------------------------------------------
@@ -71,23 +71,46 @@ end
 def checkStraightFlush(values_list,suits_list) do
 	main_suite=hd(suits_list) # reference suit
         #check if the suit is the same for every card
-        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
-                :false
+        if (checkStraight(values_list) and checkFlush(suits_list)) do
+          :true
+				else
+					:false
         end
+end
 
-	:TODO #finish difference comparison
+#-----------------------------------------------------------------------
+
+def checkFourKind(values_list) do
+	if Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 4)) == 1 do
+		:true
+	else
+		:false
+	end
+end
+
+#-----------------------------------------------------------------------
+
+def checkFullHouse(values_list) do
+	if (Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 3)) == 1) and (Enum.count(Map.values(Enum.frequencies(values_list)), &(&1 == 2)) == 1) do
+		:true
+	else
+		:false
+	end
 end
 
 #-----------------------------------------------------------
 
-def checkFlush(values_list,suits_list) do
+#Note: To check for a flush, you simply need to see if Enum.all? is true for comparing the head of the list to all of the other suits to see if they are equal
+def checkFlush(suits_list) do
 	main_suite=hd(suits_list) # reference suit
 	#check if the suit is the same for every card
-        if not (Enum.all?(suits_list,fn(suite)->suite==main_suite end)) do
-                :false
+        if (Enum.all?(suits_list, &(&1 == main_suite))) do
+					:true
+				else
+					:false
         end
 
-	checkFlushHelper(values_list,true)
+	#checkFlushHelper(values_list,true)
 end
 
 #a helper function to check if the difference between 2 cards is 1

@@ -1,5 +1,11 @@
-IO.puts Poker.deal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-IO.puts Poker.deal([15, 33, 21, 4, 42, 19, 10, 52, 37, 29])
+IO.inspect Poker.deal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+IO.inspect Poker.deal([15, 33, 21, 4, 42, 19, 10, 52, 37, 29])
+
+IO.puts "Testing high cards"
+IO.inspect Poker.getHighCard([11,9,8,10,7],["C","C","C","C","C"])
+IO.inspect Poker.getHighCard([10,10,7,10,3],["S","H","D","C","C"])
+IO.inspect Poker.getHighCard([2,3,3,1,1],["S","S","S","S","S"])
+IO.inspect Poker.getHighCard([2,3,3,6,7],["D","C","H","S","C"])
 
 IO.puts "Testing pairs"
 IO.puts Poker.checkPair([2,1,5,6,7])

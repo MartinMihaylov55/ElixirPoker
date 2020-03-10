@@ -1,4 +1,10 @@
+IO.puts "Testing deal"
+winner = Poker.deal([35, 27, 36, 28, 37, 29, 38, 30, 39, 31])
+
+IO.inspect winner
+
 IO.inspect Poker.deal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+IO.inspect Poker.deal([27, 52, 13, 38, 51, 11, 24, 49, 10, 43])
 IO.inspect Poker.deal([15, 33, 21, 4, 42, 19, 10, 52, 37, 29])
 
 IO.puts "Testing high cards"

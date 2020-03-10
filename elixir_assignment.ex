@@ -23,7 +23,7 @@ defmodule Poker do
 		rankOfHand2=determineRank(hd(p2hand),tl(p2hand))
 
 		winningHand = []
-
+		#Replace this with cond
 		if rankOfHand1 > rankOfHand2 do
 			winningHand=p1hand
 		end
@@ -247,16 +247,12 @@ def getHighCard(values_list,suits_list) do
 			determineHighValue(values_list, suits_list)
 	end
 
-	IO.puts max_value
-
 	max_card = cond do
 		max_value == 14 ->
 			1
 		true ->
 			max_value
 	end
-
-  IO.puts max_card
 
 	#finds the corresponding suite of the high card
 

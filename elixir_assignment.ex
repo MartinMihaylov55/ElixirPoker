@@ -220,19 +220,19 @@ end
 #-----------------------------------------------------------------------
 def isAceHigh(values_list, suits_list) do
 	cond do
-		determineRank(values_list, suits_list) == 1 and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,1})) ->
+		determineRank(values_list, suits_list) == 1 and Enum.count(values_list, &(&1 == 1)) == 1 ->
 			:true #contains an ace high, no hand
-		checkPair(values_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,2})) ->
+		checkPair(values_list) and Enum.count(values_list, &(&1 == 1)) == 2 ->
 			:true #contains an ace high pair
-		checkTwoPair(values_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,2})) ->
+		checkTwoPair(values_list) and Enum.count(values_list, &(&1 == 1)) == 2 ->
 			:true #contains an ace high two pair
-		checkThreeKind(values_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,3})) ->
+		checkThreeKind(values_list) and Enum.count(values_list, &(&1 == 1)) == 3 ->
 			:true #contains an ace high three of a kind
-		checkFlush(suits_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,1})) ->
+		checkFlush(suits_list) and Enum.count(values_list, &(&1 == 1)) == 1 ->
 			:true #contains an ace high flush
-		checkFullHouse(values_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,3})) ->
+		checkFullHouse(values_list) and Enum.count(values_list, &(&1 == 1)) == 3 ->
 			:true #contains an ace high full house
-		checkFourKind(values_list) and Enum.any?(Map.to_list(Enum.frequencies(values_list)), &(&1 == {1,4})) ->
+		checkFourKind(values_list) and Enum.count(values_list, &(&1 == 1)) == 4 ->
 			:true #contains an ace high four of a kind
 		true ->
 			:false
@@ -240,27 +240,23 @@ def isAceHigh(values_list, suits_list) do
 end
 #-----------------------------------------------------------------------
 def getHighCard(values_list,suits_list) do
-	max_value = Enum.max(values_list)
-	max_card = max_value
-	if (checkStraight(values_list)) do #Straight Condition
-		if checkRoyalFlush(values_list, suits_list) or not(Enum.sort(values_list) == [1,2,3,4,5]) do #Set ace as high if royal flush or not 5 high
-			max_value = 14
-		else #only in case of 5 high straight
-			max_value = 5
-		end
-	else
-		if isAceHigh(values_list, suits_list)do #find an ace high hand
-			max_value = 14
-		else #Do normal high card find if no ace
-				max_value = determineHighValue(values_list) # get max value
-		end
+	max_value = cond do
+		(checkRoyalFlush(values_list, suits_list) or isAceHigh(values_list, suits_list))->
+			14
+		true->
+			determineHighValue(values_list, suits_list)
 	end
 
-	if max_value == 14 do
-		max_card = 1
-	else
-		max_card = max_value
+	IO.puts max_value
+
+	max_card = cond do
+		max_value == 14 ->
+			1
+		true ->
+			max_value
 	end
+
+  IO.puts max_card
 
 	#finds the corresponding suite of the high card
 
@@ -286,16 +282,18 @@ def determineRank(values_list,suits_list) do
 	end
 end
 
-def determineHighValue(values_list) do
+def determineHighValue(values_list, suits_list) do
 	cond do
-		checkPair(values_list) ->
+		checkPair(values_list) and not checkFullHouse(values_list)->
 			highCardOfPair(values_list)
-		checkTwoPair(values_list) ->
-			Enum.at(Enum.sort(values_list), 4)
-		checkThreeKind(values_list) or checkFullHouse(values_list) or checkFourKind(values_list) ->
+		checkTwoPair(values_list) and Enum.count(values_list, &(&1 == 1)) == 2 ->
+			Enum.at(Enum.sort(values_list), 1)
+		checkTwoPair(values_list) and not Enum.count(values_list, &(&1 == 1)) == 2 ->
 			Enum.at(Enum.sort(values_list), 3)
+		checkThreeKind(values_list) or checkFullHouse(values_list) or checkFourKind(values_list) ->
+			Enum.at(Enum.sort(values_list), 2)
 		true ->
-			Enum.at(Enum.sort(values_list), 5)
+			Enum.at(Enum.sort(values_list), 4)
 	end
 end
 

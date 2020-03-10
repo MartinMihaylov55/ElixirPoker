@@ -22,38 +22,12 @@ defmodule Poker do
 		rankOfHand1=determineRank(hd(p1hand),tl(p1hand))
 		rankOfHand2=determineRank(hd(p2hand),tl(p2hand))
 
-		winningHand = []
-
-		if rankOfHand1 > rankOfHand2 do
-			winningHand=p1hand
-		end
-
-		if rankOfHand1 < rankOfHand2 do
-			winningHand=p2hand
-		end
-
-		if rankOfHand1==rankOfHand2 do
-			{highCard1,highSuite1}=getHighCard(hd(p1hand),tl(p1hand))
-			{highCard2,highSuite2}=getHighCard(hd(p2hand),tl(p2hand))
-			if highCard1>highCard2 do
-				winningHand=p1hand
-			end
-
-			if highCard1<highCard2 do
-				winningHand=p2hand
-			end
-
-			if highCard1==highCard2 && determineSuitRank(highSuite1)>determineSuitRank(highSuite2) do
-				winningHand=p1hand
-			end
-
-			if highCard1==highCard2 && determineSuitRank(highSuite1)<determineSuitRank(highSuite2) do
-				winningHand=p2hand
-			end
+		cond do
+			rankOfHand1 > rankOfHand2->formatOutput(p1hand)
+			rankOfHand1 < rankOfHand2->formatOutput(p2hand)
+			rankOfHand1==rankOfHand2->determineWinner(p1hand,p2hand)
 
 		end
-		IO.puts "This hand winned"
-		winningHand
 	end
 
 #---------------------------------------------------------
@@ -312,6 +286,34 @@ def determineSuitRank(suite) do
 		'C' -> 1
 		true -> -1
 	end
+end
+
+#returns the formatted list
+def formatOutput(list) do
+    	values=[]
+    	suites=[]
+	values=Enum.at(list,0)
+	suites=Enum.at(list,1)
+	result=[]
+	result=Enum.concat(result,Enum.map([0],fn(x)->to_string(Enum.at(values,x))<>Enum.at(suites,x) end))
+	result=Enum.concat(result,Enum.map([1],fn(x)->to_string(Enum.at(values,x))<>Enum.at(suites,x) end))
+	result=Enum.concat(result,Enum.map([2],fn(x)->to_string(Enum.at(values,x))<>Enum.at(suites,x) end))
+	result=Enum.concat(result,Enum.map([3],fn(x)->to_string(Enum.at(values,x))<>Enum.at(suites,x) end))
+	result=Enum.concat(result,Enum.map([4],fn(x)->to_string(Enum.at(values,x))<>Enum.at(suites,x) end))
+	result
+end
+
+#determine winner if both hands have the same rank
+def determineWinner(p1hand,p2hand) do
+			{highCard1,highSuite1}=getHighCard(hd(p1hand),tl(p1hand))
+			{highCard2,highSuite2}=getHighCard(hd(p2hand),tl(p2hand))
+
+			cond do
+				highCard1>highCard2->formatOutput(p1hand)
+				highCard1<highCard2->formatOutput(p2hand)
+				determineSuitRank(highSuite1)>determineSuitRank(highSuite2)->formatOutput(p1hand)
+				determineSuitRank(highSuite1)<determineSuitRank(highSuite2)->formatOutput(p2hand)
+			end
 end
 
 end
